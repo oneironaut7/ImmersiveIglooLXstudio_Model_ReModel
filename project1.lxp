@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1529678753768,
+  "timestamp": 1529684096217,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -104,7 +104,25 @@
           "transitionTimeSecs": 5.0,
           "transitionBlendMode": 0
         },
-        "effects": [],
+        "effects": [
+          {
+            "id": 1652,
+            "class": "ImmersiveIglooLXstudio$LSD",
+            "modulationColor": -15138561,
+            "parameters": {
+              "label": "LSD",
+              "enabled": true,
+              "Scale": 160.40000088512897,
+              "Speed": 0.9950001118704677,
+              "Range": 4.0
+            },
+            "modulation": {
+              "modulators": [],
+              "modulations": [],
+              "triggers": []
+            }
+          }
+        ],
         "clips": [],
         "patternIndex": 0,
         "patterns": [
@@ -278,7 +296,7 @@
           "label": "Starlight",
           "arm": false,
           "selected": false,
-          "enabled": true,
+          "enabled": false,
           "cue": false,
           "fader": 0.552977585233748,
           "crossfadeGroup": 0,
@@ -324,7 +342,7 @@
           "selected": false,
           "enabled": true,
           "cue": false,
-          "fader": 0.0,
+          "fader": 0.8857142999768257,
           "crossfadeGroup": 0,
           "blendMode": 1,
           "midiMonitor": false,
@@ -346,10 +364,10 @@
             "modulationColor": -16745473,
             "parameters": {
               "label": "Rings",
-              "Rotation": 0.0,
+              "Rotation": 0.8499999810010195,
               "ROT speed": 10000.0,
               "Y speed": 10000.0,
-              "Thickness": 40.0
+              "Thickness": 21.10000042244792
             },
             "modulation": {
               "modulators": [],
@@ -368,7 +386,7 @@
           "label": "SawRings",
           "arm": false,
           "selected": true,
-          "enabled": true,
+          "enabled": false,
           "cue": false,
           "fader": 0.9571428634226322,
           "crossfadeGroup": 0,
@@ -392,11 +410,11 @@
             "modulationColor": -16711778,
             "parameters": {
               "label": "SawRings",
-              "Rotation": 0.8199999816715717,
-              "ROT speed": 10000.0,
-              "Y speed": 5963.450628664461,
-              "Thickness": 84.99999899417162,
-              "SawMin": -8.0,
+              "Rotation": 0.7399999834597111,
+              "ROT speed": 7346.133845309221,
+              "Y speed": 12699.209826526869,
+              "Thickness": 20.20000044256449,
+              "SawMin": -9.599999964237213,
               "SawMax": 8.0
             },
             "modulation": {
@@ -558,8 +576,8 @@
         "camera": {
           "active": true,
           "radius": 59.00879263347498,
-          "theta": -3.2400000000000175,
-          "phi": 0.600716673851015,
+          "theta": 0.032999999999970116,
+          "phi": 0.4987166738510137,
           "x": 0.0,
           "y": 0.0,
           "z": 2.5549999918439426E-5
@@ -595,8 +613,8 @@
           {
             "active": true,
             "radius": 59.00879263347498,
-            "theta": -3.2400000000000175,
-            "phi": 0.600716673851015,
+            "theta": 0.032999999999970116,
+            "phi": 0.4987166738510137,
             "x": 0.0,
             "y": 0.0,
             "z": 2.5549999918439426E-5
