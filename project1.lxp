@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1529676664146,
+  "timestamp": 1529678753768,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -159,19 +159,27 @@
         "patternIndex": 0,
         "patterns": [
           {
-            "id": 482,
-            "class": "heronarts.lx.pattern.IteratorPattern",
-            "modulationColor": -16711722,
+            "id": 1241,
+            "class": "ImmersiveIglooLXstudio$Flash",
+            "modulationColor": -16711732,
             "parameters": {
-              "label": "Iterator",
-              "speed": 10.0
+              "label": "Flash",
+              "brightness": 100.0,
+              "attack": 50.0,
+              "decay": 1000.0,
+              "shape": 1.0,
+              "velocitySensitivity": 0.5,
+              "manual": false,
+              "midi": true,
+              "midiFilter": false,
+              "midiNote": 0
             },
             "modulation": {
               "modulators": [],
               "modulations": [],
               "triggers": []
             },
-            "autoCycleEnabled": false
+            "autoCycleEnabled": true
           }
         ]
       },
@@ -202,19 +210,18 @@
         "patternIndex": 0,
         "patterns": [
           {
-            "id": 489,
-            "class": "heronarts.lx.pattern.IteratorPattern",
-            "modulationColor": -59392,
+            "id": 1179,
+            "class": "ImmersiveIglooLXstudio$Sparkle",
+            "modulationColor": -16722945,
             "parameters": {
-              "label": "Iterator",
-              "speed": 10.0
+              "label": "Sparkle"
             },
             "modulation": {
               "modulators": [],
               "modulations": [],
               "triggers": []
             },
-            "autoCycleEnabled": false
+            "autoCycleEnabled": true
           }
         ]
       },
@@ -245,9 +252,9 @@
         "patternIndex": 0,
         "patterns": [
           {
-            "id": 558,
-            "class": "Immersive_Igloo_LXStudio$Tron",
-            "modulationColor": -16711835,
+            "id": 937,
+            "class": "ImmersiveIglooLXstudio$Tron",
+            "modulationColor": -11337984,
             "parameters": {
               "label": "Tron",
               "period": 150000.0,
@@ -271,9 +278,9 @@
           "label": "Starlight",
           "arm": false,
           "selected": false,
-          "enabled": false,
+          "enabled": true,
           "cue": false,
-          "fader": 0.9672633018344641,
+          "fader": 0.552977585233748,
           "crossfadeGroup": 0,
           "blendMode": 1,
           "midiMonitor": false,
@@ -290,9 +297,9 @@
         "patternIndex": 0,
         "patterns": [
           {
-            "id": 506,
-            "class": "Immersive_Igloo_LXStudio$Starlight",
-            "modulationColor": -13827841,
+            "id": 885,
+            "class": "ImmersiveIglooLXstudio$Starlight",
+            "modulationColor": -16722177,
             "parameters": {
               "label": "Starlight",
               "speed": 1.0,
@@ -334,24 +341,9 @@
         "patternIndex": 0,
         "patterns": [
           {
-            "id": 800,
-            "class": "heronarts.lx.pattern.IteratorPattern",
-            "modulationColor": -9175296,
-            "parameters": {
-              "label": "Iterator",
-              "speed": 10.0
-            },
-            "modulation": {
-              "modulators": [],
-              "modulations": [],
-              "triggers": []
-            },
-            "autoCycleEnabled": false
-          },
-          {
-            "id": 804,
-            "class": "Immersive_Igloo_LXStudio$Rings",
-            "modulationColor": -22528,
+            "id": 878,
+            "class": "ImmersiveIglooLXstudio$Rings",
+            "modulationColor": -16745473,
             "parameters": {
               "label": "Rings",
               "Rotation": 0.0,
@@ -395,15 +387,15 @@
         "patternIndex": 0,
         "patterns": [
           {
-            "id": 815,
-            "class": "Immersive_Igloo_LXStudio$SawRings",
-            "modulationColor": -16752385,
+            "id": 871,
+            "class": "ImmersiveIglooLXstudio$SawRings",
+            "modulationColor": -16711778,
             "parameters": {
               "label": "SawRings",
-              "Rotation": 0.7199999839067459,
+              "Rotation": 0.8199999816715717,
               "ROT speed": 10000.0,
-              "Y speed": 3704.864635614882,
-              "Thickness": 72.39999927580357,
+              "Y speed": 5963.450628664461,
+              "Thickness": 84.99999899417162,
               "SawMin": -8.0,
               "SawMax": 8.0
             },
@@ -566,8 +558,8 @@
         "camera": {
           "active": true,
           "radius": 59.00879263347498,
-          "theta": -3.189000000000019,
-          "phi": 1.368716673851014,
+          "theta": -3.2400000000000175,
+          "phi": 0.600716673851015,
           "x": 0.0,
           "y": 0.0,
           "z": 2.5549999918439426E-5
@@ -603,8 +595,8 @@
           {
             "active": true,
             "radius": 59.00879263347498,
-            "theta": -3.189000000000019,
-            "phi": 1.368716673851014,
+            "theta": -3.2400000000000175,
+            "phi": 0.600716673851015,
             "x": 0.0,
             "y": 0.0,
             "z": 2.5549999918439426E-5
