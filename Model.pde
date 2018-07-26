@@ -1,3 +1,9 @@
+
+/*import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+
 LXModel buildModel() {
   // A three-dimensional grid model
   return new GridModel3D();
@@ -16,7 +22,6 @@ public static class GridModel3D extends LXModel {
    
      
     // Each Block side is 1 unit. "h" is the Block height
-    //float h = 1.2;
     float w = 0 ; // X offset
     float v = 0; // y offset
     float offset = 0;//2*PI*0.75;
@@ -24,10 +29,6 @@ public static class GridModel3D extends LXModel {
     int LED_50 = 50;
     float r_add = 0.5;
     float dtr = (2*PI)/360; //degrees to radians 
-    //int Q1_offset = 0;
-    //int Q2_offset = 512;
-    //int Q3_offset = 1024;
-    //int Q4_offset = 1536;
     float Ring1_radius = 6;
     float Ring2_radius = 5;
     float Ring3_radius = 4;
@@ -36,7 +37,7 @@ public static class GridModel3D extends LXModel {
     float Ring6_radius = 1;
     
     //z coordinates for each ring
-    float z_mod = 5.0;
+    //float z_mod = 5.0;
     float Ring1_z = 0.00001;
     float Ring2_z = 2.0;
     float Ring3_z = 3.5;
@@ -145,7 +146,7 @@ public static class GridModel3D extends LXModel {
     
     
     
-    //set pixels Quadrant 1 FadeCandy Board # 1
+    //set pixels for FadeCandy Board # 1
     //Strand 1
     for (int i = 0; i < 64; i++) {
         if (i < 50){
@@ -211,7 +212,7 @@ public static class GridModel3D extends LXModel {
         }
     } 
     
-     //set pixels Quadrant 2 FadeCandy Board #2
+     //set pixels FadeCandy Board #2
      //Strand 9
      for (int i = 0; i < 64; i++) {
         if (i < 50){
@@ -273,12 +274,12 @@ public static class GridModel3D extends LXModel {
         }
     } 
     
-    //set pixels Quadrant 3 FadeCandy Board # 3
+    //set pixels FadeCandy Board # 3
     //Strand 17
     for (int i = 0; i < 64; i++) {
         addPoint(new LXPoint( w , v ,i*0.0000001));  
     } 
-    //Strand 18
+    //Strand 18 ******64 LEDs******
     for (int i = 0; i < 64; i++) {
         addPoint(new LXPoint( w +((Ring5_radius + (r_add)) * sin((((S18h-S18l)/LED_64)*(LED_64-i))+S18l)),Ring5_z, v +((Ring5_radius+(r_add)) * cos((((S18h-S18l)/LED_64)*(LED_64-i))+S18l))));  
     } 
@@ -290,15 +291,15 @@ public static class GridModel3D extends LXModel {
         addPoint(new LXPoint(  w ,  v ,i*0.0000001));
         }
     } 
-    //Strand 20
+    //Strand 20 
     for (int i = 0; i < 64; i++) {
         addPoint(new LXPoint( w , v ,i*0.0000001));  
     } 
-    //Strand 21
+    //Strand 21 ******64 LEDs******
     for (int i = 0; i < 64; i++) {
         addPoint(new LXPoint( w +((Ring5_radius + (r_add)) * sin((((S21h-S21l)/LED_64)*i)+S21l)),Ring5_z, v +((Ring5_radius+(r_add)) * cos((((S21h-S21l)/LED_64)*i)+S21l))));  
     } 
-    //Strand 22
+    //Strand 22 ******64 LEDs******
     for (int i = 0; i < 64; i++) {
         addPoint(new LXPoint( w +((Ring5_radius + (r_add)) * sin((((S22h-S22l)/LED_64)*i)+S22l)),Ring5_z,  v +((Ring5_radius+(r_add)) * cos((((S22h-S22l)/LED_64)*i)+S22l))));  
     } 
@@ -315,12 +316,12 @@ public static class GridModel3D extends LXModel {
         addPoint(new LXPoint( w , v ,i*0.0000001));  
     } 
     
-    //set pixels Quadrant 4 FadeCandy Board # 4
+    //set pixels FadeCandy Board # 4
     //Strand 25
     for (int i = 0; i < 64; i++) {
         addPoint(new LXPoint( w , v ,i*0.0000001));  
     } 
-    //Strand 26
+    //Strand 26 ******64 LEDs******
     for (int i = 0; i < 64; i++) {
         addPoint(new LXPoint( w +((Ring3_radius + (r_add)) * sin((((S26h-S26l)/LED_64)*i)+S26l)),Ring3_z, v +((Ring3_radius+(r_add)) * cos((((S26h-S26l)/LED_64)*i)+S26l))));  
     } 
@@ -332,7 +333,7 @@ public static class GridModel3D extends LXModel {
         addPoint(new LXPoint(  w ,  v ,i*0.0000001));
         }  
     } 
-    //Strand 28
+    //Strand 28 ******64 LEDs******
     for (int i = 0; i < 64; i++) {
         //if (i < 50){  
         addPoint(new LXPoint( w +((Ring3_radius + (r_add)) * sin((((S28h-S28l)/LED_64)*(LED_64-i))+S28l)),Ring3_z, v +((Ring3_radius+(r_add)) * cos((((S28h-S28l)/LED_64)*(LED_64-i))+S28l))));  
@@ -430,97 +431,7 @@ public static class GridModel3D extends LXModel {
         addPoint(new LXPoint(  w ,  v ,i*0.0000001));
         }
     } 
-    /*
-    //strand 2
-    for (int i = 0; i < 64; i++) {
-        if (i < 50){
-        addPoint(new LXPoint( w +((Ring1_radius + (r_add)) * sin((((S2h-S2l)/LED_50)*i)+S2l)),  v +((Ring1_radius+(r_add)) * cos((((S2h-S2l)/LED_50)*i)+S2l)),i*0.0000001));  
-        } else {
-        addPoint(new LXPoint(  w ,  v ,i*0.0000001));
-        }
-    } 
-    //Strand 3
-    for (int i = 0; i < 64; i++) {
-        if (i < 50){
-        addPoint(new LXPoint(w +((Ring1_radius + (r_add)) * sin((((S3h-S3l)/LED_50)*(LED_50-i))+S3l)),  v +((Ring1_radius+(r_add)) * cos((((S3h-S3l)/LED_50)*(LED_50-i))+S3l)),i*0.0000001));  
-        } else {
-        addPoint(new LXPoint(  w ,  v ,i*0.0000001));
-        }
-    } 
-     //Strand 4
-    for (int i = 0; i < 64; i++) {
-        if (i < 50){
-        addPoint(new LXPoint(w +((Ring1_radius + (r_add)) * sin((((S4h-S4l)/LED_50)*(LED_50-i))+S4l)),  v +((Ring1_radius+(r_add)) * cos((((S4h-S4l)/LED_50)*(LED_50-i))+S4l)),i*0.0000001));  
-        } else {
-        addPoint(new LXPoint(  w ,  v ,i*0.0000001));
-        }
-    } 
-     //Strand 5
-    for (int i = 0; i < 64; i++) {
-        if (i < 50){
-        addPoint(new LXPoint( w +((Ring2_radius + (r_add)) * sin((((S5h-S5l)/LED_50)*i)+S5l)),  v +((Ring2_radius+(r_add)) * cos((((S5h-S5l)/LED_50)*i)+S5l)),i*0.0000001));  
-        } else {
-        addPoint(new LXPoint(  w ,  v ,i*0.0000001));
-        }
-    }
-     //Strand 6
-    for (int i = 0; i < 64; i++) {
-        if (i < 50){
-        addPoint(new LXPoint( w +((Ring2_radius + (r_add)) * sin((((S6h-S6l)/LED_50)*i)+S6l)),  v +((Ring2_radius+(r_add)) * cos((((S6h-S6l)/LED_50)*i)+S6l)),i*0.0000001));  
-        } else {
-        addPoint(new LXPoint(  w ,  v ,i*0.0000001));
-        }
-    }
-     //Strand 7
-    for (int i = 0; i < 64; i++) {
-        if (i < 50){
-        addPoint(new LXPoint(w +((Ring2_radius + (r_add)) * sin((((S7h-S7l)/LED_50)*(LED_50-i))+S7l)),  v +((Ring2_radius+(r_add)) * cos((((S7h-S7l)/LED_50)*(LED_50-i))+S7l)),i*0.0000001));  
-        } else {
-        addPoint(new LXPoint(  w ,  v ,i*0.0000001));
-        }
-    } 
-    //Strand 8
-    for (int i = 0; i < 64; i++) {
-        if (i < 50){
-        addPoint(new LXPoint(w +((Ring2_radius + (r_add)) * sin((((S8h-S8l)/LED_50)*(LED_50-i))+S8l)),  v +((Ring2_radius+(r_add)) * cos((((S8h-S8l)/LED_50)*(LED_50-i))+S8l)),i*0.0000001));  
-        } else {
-        addPoint(new LXPoint(  w ,  v ,i*0.0000001));
-        }
-    } */
-    /*
-    for (int i = 0; i<arraySize; ++i){
-      addPoint(new LXPoint( radius1 * sin(((i)/float(arraySize))*2*PI),  radius1 * cos(((i)/float(arraySize))*2*PI),i*0.0000001));
-       }
-    for (int i = 0; i<arraySize; ++i){
-      addPoint(new LXPoint( radius2 * sin(((i)/float(arraySize))*2*PI),  radius2 * cos(((i)/float(arraySize))*2*PI),i*0.0000001));
-      }   
-    for (int i = 0; i<arraySize; ++i){
-      addPoint(new LXPoint( radius3 * sin(((i)/float(arraySize))*2*PI),  radius3 * cos(((i)/float(arraySize))*2*PI),i*0.0000001));
-       }
-    for (int i = 0; i<arraySize; ++i){
-      addPoint(new LXPoint( radius4 * sin(((i)/float(arraySize))*2*PI),  radius4 * cos(((i)/float(arraySize))*2*PI),i*0.0000001));
-      } 
-     for (int i = 0; i<arraySize; ++i){
-      addPoint(new LXPoint( radius5 * sin(((i)/float(arraySize))*2*PI),  radius5 * cos(((i)/float(arraySize))*2*PI),i*0.0000001));
-       }
-    for (int i = 0; i<arraySize; ++i){
-      addPoint(new LXPoint( radius6 * sin(((i)/float(arraySize))*2*PI),  radius6 * cos(((i)/float(arraySize))*2*PI),i*0.0000001));
-      }   
-    for (int i = 0; i<arraySize; ++i){
-      addPoint(new LXPoint( radius7 * sin(((i)/float(arraySize))*2*PI),  radius7 * cos(((i)/float(arraySize))*2*PI),i*0.0000001));
-       }
-    for (int i = 0; i<arraySize; ++i){
-      addPoint(new LXPoint( radius8 * sin(((i)/float(arraySize))*2*PI),  radius8 * cos(((i)/float(arraySize))*2*PI),i*0.0000001));
-      }  
-      */
-     /* int mult = 5;
-      for (int z = 0; z < SIZE; ++z) {
-        for (int y = 0; y < SIZE; ++y) {
-          for (int x = 0; x < SIZE; ++x) {
-            addPoint(new LXPoint((x*mult), (y*mult), (z*mult)));
-          }
-        }
-      }*/
+   
     }
   }
-}
+}*/
