@@ -1566,6 +1566,11 @@ public class PatternClouds extends EnvelopPattern {
     float xScale = this.xScale.getValuef();
     float yScale = this.yScale.getValuef();
     float zScale = this.zScale.getValuef();
+    
+    int pixnum = 0;
+    int strandnum = 0;
+    int final_num = 0;
+    
     for (Ring ring : model.rings) {
       for (Strand strand : ring.strands) {
         for (LXPoint p : strand.points) {
@@ -1574,7 +1579,10 @@ public class PatternClouds extends EnvelopPattern {
           (scale + p.yn * yScale) * p.yn + this.yBasis, 
           (scale + p.zn * zScale) * p.zn + this.zBasis
         );
-        setColor(strand, LXColor.gray(constrain(-thickness + (150 + thickness) * nv, 0, 100)));
+        final_num = (strandnum *64) + pixnum;
+        //println(final_num);
+        colors[final_num]= LXColor.gray(constrain(-thickness + (150 + thickness) * nv, 0, 100)); //(setColor(strand, LXColor.lerp(c1, c2, lerp));
+        ++pixnum;
         }
       }
     }
@@ -1668,6 +1676,10 @@ public class PatternWaves extends EnvelopPattern {
     for (int i = 0; i < bins.length; ++i) {
       bins[i] = model.cy + model.yRange/2 * Math.sin(i * TWO_PI / bins.length + phaseValue);
     }
+    int pixnum = 0;
+    int strandnum = 0;
+    int final_num = 0;
+    
     for (Ring ring : model.rings) {
       for (Strand strand : ring.strands) {
         for (LXPoint p : strand.points) {
@@ -1684,7 +1696,14 @@ public class PatternWaves extends EnvelopPattern {
       float d3 = abs(strand.cy*amp3 - y3);
       
       float b = max(0, 100 - falloff * min(min(d1, d2), d3));      
-      setColor(strand, b > 0 ? LXColor.gray(b) : #000000);
+      //setColor(strand, b > 0 ? LXColor.gray(b) : #000000);
+      final_num = (strandnum *64) + pixnum;
+      if(b>0){
+      colors[final_num]= LXColor.gray(b); 
+      } else {
+      colors[final_num]= #000000;  
+      }  
+      ++pixnum;
         }
       } 
     }
@@ -1879,6 +1898,98 @@ public class TestSlides extends ColorSlideshow {
     };
   }
 }
+@LXCategory("Pattern")
+public class PatternBorealis extends EnvelopPattern {
+  public String getAuthor() {
+    return "Mark C. Slee";
+  }
+  
+  public final CompoundParameter speed =
+    new CompoundParameter("Speed", .5, .01, 1)
+    .setDescription("Speed of motion");
+  
+  public final CompoundParameter scale =
+    new CompoundParameter("Scale", .5, .1, 1)
+    .setDescription("Scale of lights");
+  
+  public final CompoundParameter spread =
+    new CompoundParameter("Spread", 6, .1, 10)
+    .setDescription("Spreading of the motion");
+  
+  public final CompoundParameter base =
+    new CompoundParameter("Base", .5, .2, 1)
+    .setDescription("Base brightness level");
+    
+  public final CompoundParameter contrast =
+    new CompoundParameter("Contrast", 1, .5, 2)
+    .setDescription("Contrast of the lights");    
+  
+  public PatternBorealis(LX lx) {
+    super(lx);
+    addParameter("speed", this.speed);
+    addParameter("scale", this.scale);
+    addParameter("spread", this.spread);
+    addParameter("base", this.base);
+    addParameter("contrast", this.contrast);
+  }
+  
+  private float yBasis = 0;
+  
+  public void run(double deltaMs) {
+    this.yBasis -= deltaMs * .0005 * this.speed.getValuef();
+    float scale = this.scale.getValuef();
+    float spread = this.spread.getValuef();
+    float base = .01 * this.base.getValuef();
+    float contrast = this.contrast.getValuef();
+    int pixnum = 0;
+    int strandnum = 0;
+    int final_num = 0;  
+    for (Strand strand : model.strands) {
+      for (LXPoint p : strand.points) {
+      float nv = noise(
+        scale * (base * p.rxz - spread * p.yn),
+        p.yn + this.yBasis
+      );
+      final_num = (strandnum *64) + pixnum;
+      colors[final_num]= LXColor.gray(constrain(contrast * (-50 + 180 * nv), 0, 100)); 
+      ++pixnum;
+      }
+    }
+  }
+}
+@LXCategory("Pattern")
+public class PatternTumbler extends EnvelopPattern {
+  public String getAuthor() {
+    return "Mark C. Slee";
+  }
+  
+  private LXModulator azimuthRotation = startModulator(new SawLFO(0, 1, 15000).randomBasis());
+  private LXModulator thetaRotation = startModulator(new SawLFO(0, 1, 13000).randomBasis());
+  
+  public PatternTumbler(LX lx) {
+    super(lx);
+  }
+  
+  
+  public void run(double deltaMs) {
+    float azimuthRotation = this.azimuthRotation.getValuef();
+    float thetaRotation = this.thetaRotation.getValuef();
+    int pixnum = 0;
+    int strandnum = 0;
+    int final_num = 0;  
+    for (Strand strand : model.strands) {
+      for (LXPoint p : strand.points) {
+      float tri1 = LXUtils.trif(azimuthRotation + p.azimuth / PI);
+      float tri2 = LXUtils.trif(thetaRotation + (PI + p.theta) / PI);
+      float tri = max(tri1, tri2);
+      final_num = (strandnum *64) + pixnum;
+      colors[final_num]= LXColor.gray(100 * tri * tri); 
+      ++pixnum;
+      }
+    }
+  }
+}
+
 
 //---Tom Patterns LOL
 @LXCategory("Test") 
@@ -1964,6 +2075,114 @@ public class PixelSelect
     
     for (int j = 0; j < colors.length; j++) {
       colors[j] = (j == final_num ? -1 : -16777216);
+    }
+  }
+}
+@LXCategory("Pattern")
+public class Lattice extends EnvelopPattern {
+
+  public final double MAX_RIPPLES_TREAT_AS_INFINITE = 2000.0;
+  
+  public final CompoundParameter rippleRadius =
+    new CompoundParameter("Ripple radius", 500.0, 200.0, MAX_RIPPLES_TREAT_AS_INFINITE)
+    .setDescription("Controls the spacing between ripples");
+
+  public final CompoundParameter subdivisionSize =
+    new CompoundParameter("Subdivision size", MAX_RIPPLES_TREAT_AS_INFINITE, 200.0, MAX_RIPPLES_TREAT_AS_INFINITE)
+    .setDescription("Subdivides the canvas into smaller canvases of this size");
+
+  public final CompoundParameter numSpirals =
+    new CompoundParameter("Spirals", 0, -3, 3)
+    .setDescription("Adds a spiral effect");
+
+  public final CompoundParameter yFactor =
+    new CompoundParameter("Y factor")
+    .setDescription("How much Y is taken into account");
+
+  public final CompoundParameter manhattanCoefficient =
+    new CompoundParameter("Square")
+    .setDescription("Whether the rippes should be circular or square");
+
+  public final CompoundParameter triangleCoefficient =
+    new CompoundParameter("Triangle coeff")
+    .setDescription("Whether the wave resembles a sawtooth or a triangle");
+
+  public final CompoundParameter visibleAmount =
+    new CompoundParameter("Visible", 1.0, 0.1, 1.0)
+    .setDescription("Whether the full wave is visible or only the peaks");
+
+  public Lattice(LX lx) {
+    super(lx);
+    addParameter(rippleRadius);
+    addParameter(subdivisionSize);
+    addParameter(numSpirals);
+    addParameter(yFactor);
+    addParameter(manhattanCoefficient);
+    addParameter(triangleCoefficient);
+    addParameter(visibleAmount);
+  }
+  
+  private double _modAndShiftToHalfZigzag(double dividend, double divisor) {
+    double mod = (dividend + divisor) % divisor;
+    double value = (mod > divisor / 2) ? (mod - divisor) : mod;
+    int quotient = (int) (dividend / divisor);
+    return (quotient % 2 == 0) ? -value : value;
+  }
+  
+  private double _calculateDistance(Strand strand) {
+    double x = strand.cx;
+    double y = strand.cy * this.yFactor.getValue();
+    double z = strand.cz;
+    
+    double subdivisionSizeValue = subdivisionSize.getValue();
+    if (subdivisionSizeValue < MAX_RIPPLES_TREAT_AS_INFINITE) {
+      x = _modAndShiftToHalfZigzag(x, subdivisionSizeValue);
+      y = _modAndShiftToHalfZigzag(y, subdivisionSizeValue);
+      z = _modAndShiftToHalfZigzag(z, subdivisionSizeValue);
+    }
+        
+    double manhattanDistance = (Math.abs(x) + Math.abs(y) + Math.abs(z)) / 1.5;
+    double euclideanDistance = Math.sqrt(x * x + y * y + z * z);
+    return LXUtils.lerp(euclideanDistance, manhattanDistance, manhattanCoefficient.getValue());
+  }
+
+  public void run(double deltaMs) {
+    // add an arbitrary number of beats so refreshValueModOne isn't negative;
+    // divide by 4 so you get one ripple per measure
+    double ticksSoFar = (lx.tempo.beatCount() + lx.tempo.ramp() + 256) / 4;
+
+    double rippleRadiusValue = rippleRadius.getValue();
+    double triangleCoefficientValueHalf = triangleCoefficient.getValue() / 2;
+    double visibleAmountValueMultiplier = 1 / visibleAmount.getValue();
+    double visibleAmountValueToSubtract = visibleAmountValueMultiplier - 1;
+    double numSpiralsValue = Math.round(numSpirals.getValue());
+
+    // Let's iterate over all the leaves...
+    int pixnum = 0;
+    int strandnum = 0;
+    int final_num = 0;  
+    for (Strand strand : model.strands) {
+      for (LXPoint p : strand.points) {
+      double totalDistance = _calculateDistance(strand);
+      double rawRefreshValueFromDistance = totalDistance / rippleRadiusValue;
+      double rawRefreshValueFromSpiral = Math.atan2(p.z, p.x) * numSpiralsValue / (2 * Math.PI);
+
+      double refreshValueModOne = (ticksSoFar - rawRefreshValueFromDistance - rawRefreshValueFromSpiral) % 1.0;
+      double brightnessValueBeforeVisibleCheck = (refreshValueModOne >= triangleCoefficientValueHalf) ?
+        1 - (refreshValueModOne - triangleCoefficientValueHalf) / (1 - triangleCoefficientValueHalf) :
+        (refreshValueModOne / triangleCoefficientValueHalf);
+
+      double brightnessValue = brightnessValueBeforeVisibleCheck * visibleAmountValueMultiplier - visibleAmountValueToSubtract;
+       final_num = (strandnum *64) + pixnum;
+       
+      
+      if (brightnessValue > 0) {
+        colors[final_num]= LXColor.gray((float) brightnessValue * 100); 
+      } else {
+        colors[final_num]=  #000000;
+      }
+      ++pixnum;
+      } 
     }
   }
 }
