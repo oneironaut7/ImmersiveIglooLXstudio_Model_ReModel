@@ -101,13 +101,13 @@ static class Satellite extends VenueModel {
       RING_POSITIONS[i] = PLATFORM_POSITIONS[i].copy().mult(ratio);
     }
   };
-  
   final static float y_axis1 = 2*FEET;
   final static float y_axis2 = 7*FEET;
   final static float y_axis3 = 11*FEET;
   final static float y_axis4 = 15*FEET;
   final static float y_axis5 = 18*FEET;
   final static float y_axis6 = 20*FEET;
+  final static float y_axis7 = 5*FEET;
   final static float radius1 = 20*FEET;
   final static float radius2 = 18*FEET;
   final static float radius3 = 16*FEET;
@@ -119,15 +119,15 @@ static class Satellite extends VenueModel {
     //(position, num_points, point spacing) 
     //fc board #1
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis1, 310.01, 350, radius1), //Strand 1
-    new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis1, 270.01, 310, radius1), //Strand 2 
-    new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis1, 270, 230, radius1), //Strand 3
+    new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis1, 270.01, 310, radius1), //Strand 2     new VenueModel.Config.Strand(new PVector(0, 0, 0), 32, y_axis7, 0, 180.01, radius1), //Strand 2 //
+    new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis1, 270, 230, radius1), //Strand 3  new VenueModel.Config.Strand(new PVector(0, 0, 0), 32, y_axis7, 360, 180, radius1), //Strand 3 //
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis1, 230.01, 190, radius1), //Strand 4
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis2, 310.01, 350, radius2), //Strand 5
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis2, 270.01, 310, radius2), //Strand 6 
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis2, 270, 230, radius2), //Strand 7
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis2, 230.01, 190, radius2), //Strand 8
     //fc board #2
-    new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis3, -30.01,  30, radius3), //Strand 9
+    new VenueModel.Config.Strand(new PVector(0, 0, 0), 64, y_axis3, -30.01,  30, radius3), //Strand 9
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis3, 270.01, 330, radius3), //Strand 10 
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis3, 270, 215, radius3), //Strand 11
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 64, y_axis3, 215.01, 150, radius3), //Strand 12
@@ -137,9 +137,9 @@ static class Satellite extends VenueModel {
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis4, 205.01, 145, radius4), //Strand 16
     //fc board #3
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 0,  0, 0,  0, 0),                //Strand 17
-    new VenueModel.Config.Strand(new PVector(0, 0, 0), 64, y_axis5, 270.01, 120, radius5), //Strand 18 
-    new VenueModel.Config.Strand(new PVector(0, 0, 0), 64, y_axis5, 120.01,  30, radius5), //Strand 19
-    new VenueModel.Config.Strand(new PVector(0, 0, 0), 64, y_axis5, -90, 30.01, radius5),  //Strand 20
+    new VenueModel.Config.Strand(new PVector(0, 0, 0), 64, y_axis5, -70, 10.01, radius5),  //Strand 18
+    new VenueModel.Config.Strand(new PVector(0, 0, 0), 64, y_axis5, 290.1,140, radius5), //Strand 19 
+    new VenueModel.Config.Strand(new PVector(0, 0, 0), 64, y_axis5, 140,  10, radius5), //Strand 20
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 0, 0, 0, 0, 0),                  //Strand 21
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis6, -90, 90.01, radius6),  //Strand 22
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis6, 270.01, 90, radius6),  //Strand 23
@@ -150,8 +150,8 @@ static class Satellite extends VenueModel {
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis3, 90, 60, radius3),   //Strand 27
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 64, y_axis3, 60.01, 30, radius3),   //Strand 28
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 0, 0, 0,  0, 0),                 //Strand 29
-    new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis4, 90.01, 145, radius4),  //Strand 30
-    new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis4, 90, 20.01, radius4),   //Strand 31
+    new VenueModel.Config.Strand(new PVector(0, 0, 0), 64, y_axis4, 90.01, 145, radius4),  //Strand 30
+    new VenueModel.Config.Strand(new PVector(0, 0, 0), 64, y_axis4, 90, 20.01, radius4),   //Strand 31
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 0, 0, 0, 0, 0),                  //Strand 32
     //fc board #5
     new VenueModel.Config.Strand(new PVector(0, 0, 0), 50, y_axis1, 130.01, 170, radius1), //Strand 33
@@ -266,11 +266,16 @@ static class Strand extends LXModel {
         addPoint(new LXPoint(radius* sin(start_rad+ (i*degree_inc)), strand.y_axis, radius* cos(start_rad +(i*degree_inc))));
         ++count;
         }
+     if (count == 32){  
+        for (int i = 0; i < 32; ++i) {
+        addPoint(new LXPoint(0, 0, 0));
+        }
+      }    
       if (count == 50){  
         for (int i = 0; i < 14; ++i) {
         addPoint(new LXPoint(0, 0, 0));
         }
-      }   
+      }  
       if (count == 0){  
         for (int i = 0; i < 64; ++i) {
         addPoint(new LXPoint(0, 0, 0));

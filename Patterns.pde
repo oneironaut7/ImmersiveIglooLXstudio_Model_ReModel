@@ -302,10 +302,10 @@ public static class Test extends LXPattern {
     .setExponent(4.0);  
 
   public final CompoundParameter SawMin =
-    new CompoundParameter("SawMin", -8 *FEET, -20*FEET, 20*FEET);    
+    new CompoundParameter("SawMin", -20 *FEET, -40*FEET, 40*FEET);    
 
   public final CompoundParameter SawMax =
-    new CompoundParameter("SawMax", 8*FEET, -20*FEET, 20*FEET);  
+    new CompoundParameter("SawMax", 20*FEET, -40*FEET, 40*FEET);  
 
   //defines number of rings; the original stated 2 but 1 looks better for this
   public SawRings(LX lx) {
@@ -919,26 +919,148 @@ public class EnvelopDecode extends EnvelopPattern {
       startModulator(dampedDecode[d++] = new DampedParameter(parameter, damping));
     }
   }
-  
   public void run(double deltaMs) {
     float fv = fade.getValuef();
     float falloff = 100 / fv;
     float mode = this.mode.getValuef();
     float faden = fade.getNormalizedf();
+    int lu= 0;
+    int cnt = 1;
+    int snum = 1; 
+    int[] lookup = new int[16];
+    lookup[0]= 1;
+    lookup[1]= 2;
+    lookup[2]= 3;
+    lookup[3]= 4;
+    lookup[4]= 5;
+    lookup[5]= 6;
+    lookup[6]= 7;
+    lookup[7]= 8;
+    lookup[8]= 33;
+    lookup[9]= 34;
+    lookup[10]= 35;
+    lookup[11]= 36;
+    lookup[12]= 37;
+    lookup[13]= 38;
+    lookup[14]= 39;
+    lookup[15]= 40;
+    int[] decodenum = new int[16];
+    decodenum[0]= 4;
+    decodenum[1]= 5;
+    decodenum[2]= 6;
+    decodenum[3]= 7;
+    decodenum[4]= 4;
+    decodenum[5]= 5;
+    decodenum[6]= 6;
+    decodenum[7]= 7;
+    decodenum[8]= 0;
+    decodenum[9]= 1;
+    decodenum[10]= 2;
+    decodenum[11]= 3;
+    decodenum[12]= 0;
+    decodenum[13]= 1;
+    decodenum[14]= 2;
+    decodenum[15]= 3;
+   // for (int i = 0; i < 8; i++){
+     //println(envelop.decode.channels.length);
+      for (Strand strand : model.strands) {
+        float levelf = this.dampedDecode[decodenum[lu]].getValuef();
+        float level = levelf *  (model.yRange/2.);//(model.yRange / 2.);
+        float yn = abs(strand.cy - model.yMin);
+        float b0 = constrain(falloff * (level - yn), 0, 100);
+        float b1max = lerp(100, 100*levelf, faden);
+        float b1 = (yn > level) ? max(0, b1max - 80*(yn-level)) : lerp(0, b1max, yn / level); 
+        //colors[p.index] = LXColor.gray(lerp(b0, b1, mode));
+        if (cnt == lookup[lu]) { 
+          setColor(strand, LXColor.gray(lerp(b0, b1, mode)));
+          lu++;
+             if (lu >= 16) {
+                lu = 0;
+             } 
+         // println("cnt");
+          //println(cnt);
+          //println("lu");
+          //println(lu);
+        } else {
+          setColor(strand, #000000);
+        }  
+        ++snum;
+        ++cnt;
+        if (cnt > 16) {
+        snum = 1;
+        } 
+        
+        //println("snum");
+        //println(snum);
+        
+      }
+    //}
+    /*
     for (Ring ring : venue.rings) {
-      float levelf = this.dampedDecode[ring.index].getValuef();
+      for(int i=0;i<8;i++){
+      float levelf = this.dampedDecode[i].getValuef();
       float level = levelf * (model.zRange / 2.);
+      levelA[i]= level; 
       for (Strand strand : ring.strands) {
-        for (LXPoint p : strand.points) {
-          float zn = abs(p.z - model.cz);
-          float b0 = constrain(falloff * (level - zn), 0, 100);
+       stest[i] = strand;
+        //for (LXPoint p : strand.points) {
+          float yn = abs(strand.cz - model.cz);
+          float b0 = constrain(falloff * (levelA[i] - yn), 0, 100);
           float b1max = lerp(100, 100*levelf, faden);
-          float b1 = (zn > level) ? max(0, b1max - 80*(zn-level)) : lerp(0, b1max, zn / level); 
-          colors[p.index] = LXColor.gray(lerp(b0, b1, mode));
+          float b1 = (yn > levelA[i]) ? max(0, b1max - 80*(yn-levelA[i])) : lerp(0, b1max, yn / levelA[i]); 
+          test1[i] = b0;
+          test2[i] = b1;
+          println(i);
+          setColor(stest[i], LXColor.gray(lerp(test1[i], test2[i], mode)));
+          //colors[p.index] = LXColor.gray(lerp(b0, b1, mode));
         }
       }
-    }
+    }*/
   }
+   /*public void run(double deltaMs) {
+    float fv = fade.getValuef();
+    float falloff = 100 / fv;
+    float mode = this.mode.getValuef();
+    float faden = fade.getNormalizedf();
+    int pixnum = 0;
+    int strandnum = 0;
+    int ringnum = 0;
+    int final_num = 0;
+    for (int i = 0; i < 8; ++i) {
+      float levelf = this.dampedDecode[i].getValuef();
+      float level = levelf * (model.yRange / 2.);
+      println("strandnum");
+      println(strandnum);
+      strandnum++;
+      
+      
+     
+      for (Ring ring : model.rings) {
+        println("ringnum");
+        println(ringnum);
+        for (Strand strand : ring.strands) {
+          //println("pixnum");
+          //println(pixnum);
+          
+          for (LXPoint p : strand.points) {
+           // println("finalnum");
+            //println(final_num);
+            float yn = abs(p.y - model.cy);
+            float b0 = constrain(falloff * (level - yn), 0, 100);
+            float b1max = lerp(100, 100*levelf, faden);
+            float b1 = (yn > level) ? max(0, b1max - 80*(yn-level)) : lerp(0, b1max, yn / level); 
+            //final_num = (strandnum *64) + pixnum;
+            
+            setColor(strand, LXColor.gray(lerp(b0, b1, mode)));
+            //colors[pixnum] = LXColor.gray(lerp(b0, b1, mode));
+            ++final_num;
+            }
+            ++pixnum;
+          }
+          ringnum++;  
+        }   
+      }
+    }*/
 }
 
 @LXCategory("Envelop")
@@ -1011,12 +1133,20 @@ public class EnvelopObjects extends EnvelopPattern implements CustomDeviceUI {
         float z = this.z.getValuef();
         float spreadf = spread.getValuef();
         float falloff = 100 / (size.getValuef() + response.getValuef() * object.getValuef());
-        for (LXPoint p : model.strandPoints) {
-          float dist = dist(p.x * spreadf,  p.z * spreadf,p.y, x * spreadf,  z * spreadf ,y);
-          float b = 100 - dist*falloff;
-          if (b > 0) {
-            addColor(p.index, LXColor.gray(b));
-          }
+        int pixnum = 0;
+        int strandnum = 0;
+        int final_num = 0;
+        
+        
+          for (LXPoint p : model.strandPoints) {
+            float dist = dist(p.x * spreadf,  p.y * spreadf, p.z, x * spreadf,  y * spreadf ,z);
+            float b = 100 - dist*falloff;
+            final_num = (strandnum *64) + pixnum;
+            if (b > 0) {
+              colors[final_num]=LXColor.gray(b);
+            }
+          ++pixnum;
+         
         }
       }
     }
@@ -1340,7 +1470,80 @@ public class EnvelopShimmer extends EnvelopPattern {
       }
     }
   }
-  
+  /*float fv = fade.getValuef();
+    float falloff = 100 / fv;
+    float mode = this.mode.getValuef();
+    float faden = fade.getNormalizedf();
+    int lu= 0;
+    int cnt = 1;
+    int snum = 1; 
+    int[] lookup = new int[16];
+    lookup[0]= 1;
+    lookup[1]= 2;
+    lookup[2]= 3;
+    lookup[3]= 4;
+    lookup[4]= 5;
+    lookup[5]= 6;
+    lookup[6]= 7;
+    lookup[7]= 8;
+    lookup[8]= 33;
+    lookup[9]= 34;
+    lookup[10]= 35;
+    lookup[11]= 36;
+    lookup[12]= 37;
+    lookup[13]= 38;
+    lookup[14]= 39;
+    lookup[15]= 40;
+    int[] decodenum = new int[16];
+    decodenum[0]= 4;
+    decodenum[1]= 5;
+    decodenum[2]= 6;
+    decodenum[3]= 7;
+    decodenum[4]= 4;
+    decodenum[5]= 5;
+    decodenum[6]= 6;
+    decodenum[7]= 7;
+    decodenum[8]= 0;
+    decodenum[9]= 1;
+    decodenum[10]= 2;
+    decodenum[11]= 3;
+    decodenum[12]= 0;
+    decodenum[13]= 1;
+    decodenum[14]= 2;
+    decodenum[15]= 3;
+   // for (int i = 0; i < 8; i++){
+     //println(envelop.decode.channels.length);
+      for (Strand strand : model.strands) {
+        float levelf = this.dampedDecode[decodenum[lu]].getValuef();
+        float level = levelf * (model.yRange / 2.);
+        float yn = abs(strand.cy - model.cy);
+        float b0 = constrain(falloff * (level - yn), 0, 100);
+        float b1max = lerp(100, 100*levelf, faden);
+        float b1 = (yn > level) ? max(0, b1max - 80*(yn-level)) : lerp(0, b1max, yn / level); 
+        //colors[p.index] = LXColor.gray(lerp(b0, b1, mode));
+        if (cnt == lookup[lu]) { 
+          setColor(strand, LXColor.gray(lerp(b0, b1, mode)));
+          lu++;
+             if (lu >= 16) {
+                lu = 0;
+             } 
+         // println("cnt");
+          //println(cnt);
+          //println("lu");
+          //println(lu);
+        } else {
+          setColor(strand, #000000);
+        }  
+        ++snum;
+        ++cnt;
+        if (cnt > 16) {
+        snum = 1;
+        } 
+        
+        //println("snum");
+        //println(snum);
+        
+      }*/
   public void run(double deltaMs) {
     float speed = this.speedDamped.getValuef();
     float interp = this.interp.getValuef();
@@ -1723,7 +1926,7 @@ public class ColorTwoToneLeaves extends EnvelopPattern {
     new CompoundParameter("Amount", 0)
     .setDescription("Amount to mix in the second color tone");
   
-  private final float[] bias = new float[model.strands.size()]; 
+  private final float[] bias = new float[2560]; 
   
   public ColorTwoToneLeaves(LX lx) {
     super(lx);
@@ -1740,18 +1943,26 @@ public class ColorTwoToneLeaves extends EnvelopPattern {
     int c2 = LXColor.hsb(this.tone.getValuef(), sat, 100);
     int li = 0;
     float amount = this.amount.getValuef();
-    for (Ring ring : model.rings) {
-      for (Strand strand : ring.strands) {
-      float delta = amount - this.bias[li];
-      if (delta <= 0) {
-        setColor(strand, c1);
-      } else if (delta < .1) {
-        setColor(strand, LXColor.lerp(c1, c2, 10*delta));
-      } else {
-        setColor(strand, c2);
-      }   
-      ++li;
     
+    int pixnum = 0;
+    int strandnum = 0;
+    int final_num = 0;
+    
+    for (Strand strand : model.strands) {
+      
+      
+      for (LXPoint p : strand.points) {
+      float delta = amount - this.bias[li];
+      final_num = (strandnum *64) + pixnum;
+      if (delta <= 0) {
+        colors[final_num]=  c1;
+      } else if (delta < .1) {
+        colors[final_num]= LXColor.lerp(c1, c2, 10*delta);
+      } else {
+        colors[final_num]= c2;
+      }  
+      ++pixnum;
+      ++li;
       }
     }
   }
@@ -2019,6 +2230,62 @@ public class StrandSelect extends EnvelopPattern {
       ++cnt;
     }  
   
+  }
+}
+
+@LXCategory("Color")
+public class ColorLighthouse extends EnvelopPattern {
+  public String getAuthor() {
+    return "Mark C. Slee";
+  }
+  
+  public final CompoundParameter speed = (CompoundParameter)
+    new CompoundParameter("Speed", 17000, 19000, 5000)
+    .setExponent(2)
+    .setDescription("Speed of lighthouse motion");
+    
+  public final CompoundParameter spread = (CompoundParameter)
+    new CompoundParameter("Spread", 0, 360)
+    .setDescription("Spread of lighthouse gradient");
+    
+  public final CompoundParameter slope = (CompoundParameter)
+    new CompoundParameter("Slope", 0, -1, 1)
+    .setDescription("Slope of gradient");
+ 
+  private final LXModulator spreadDamped = startModulator(new DampedParameter(this.spread, 360, 540, 270));
+  private final LXModulator slopeDamped = startModulator(new DampedParameter(this.slope, 2, 4, 2));
+ 
+  private final LXModulator azimuth = startModulator(new SawLFO(0, TWO_PI, speed));
+  
+  public ColorLighthouse(LX lx) {
+    super(lx);
+    addParameter("speed", this.speed);
+    addParameter("spread", this.spread);
+    addParameter("slope", this.slope);
+  }
+  
+  public void run(double deltaMs) {
+    float hue = palette.getHuef();
+    float sat = palette.getSaturationf();
+    float azimuth = this.azimuth.getValuef();
+    float spread = this.spreadDamped.getValuef() / PI;
+    float slope = PI * this.slopeDamped.getValuef();
+     int pixnum = 0;
+    int strandnum = 0;
+    int final_num = 0;  
+    for (Strand strand : model.strands) {
+      for (LXPoint p : strand.points) {
+      float az = (TWO_PI + p.azimuth + abs(p.yn - .5) * slope) % TWO_PI;
+      float d = LXUtils.wrapdistf(az, azimuth, TWO_PI);
+      final_num = (strandnum *64) + pixnum;
+      colors[final_num]= LXColor.hsb(
+        hue + spread * d,
+        sat,
+        100
+      ); 
+      ++pixnum;
+      }
+    }
   }
 }
 //---Tom Patterns LOL

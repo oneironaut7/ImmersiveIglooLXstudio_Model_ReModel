@@ -94,7 +94,7 @@ void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStu
 
 void onUIReady(heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
   //hides the Audio pane on e top left side bar 
-  ui.leftPane.audio.setVisible(false);
+  //ui.leftPane.audio.setVisible(false);
   //ui.preview.addComponent(getUIVenue());  
   ui.preview.addComponent(new UISoundObjects());
   ui.preview.setPhi(PI/32).setMinRadius(2*FEET).setMaxRadius(48*FEET);
